@@ -59,6 +59,18 @@ class ProjectState extends State<Project> {
       ProjectStatus.Active
     );
     this.projects.push(newProject);
+    this.updateListeners();
+  }
+
+  moveProject(id: string, newStatus: ProjectStatus) {
+    const project = this.projects.find((prj) => prj.id === id);
+    if (project && project.status !== newStatus) {
+      project.status = newStatus;
+      this.updateListeners();
+    }
+  }
+
+  private updateListeners() {
     for (const listenerFn of this.listeners) {
       // slice for returning a copy instead of original array
       listenerFn(this.projects.slice());
@@ -229,7 +241,7 @@ class ProjectList
   dragOverHandler(event: DragEvent): void {
     //Check if drag is allowed here
     if (event.dataTransfer && event.dataTransfer.types[0] === "text/plain") {
-        //mandatory to allow a drop
+      //mandatory to allow a drop
       event.preventDefault();
       //Add class for UI changes
       const listEl = this.element.querySelector("ul")!;
@@ -239,7 +251,11 @@ class ProjectList
 
   @Autobind
   dropHandler(event: DragEvent): void {
-    console.log(event.dataTransfer!.getData('text/plain'));
+    const prjId = event.dataTransfer!.getData("text/plain");
+    projectState.moveProject(
+      prjId,
+      this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished
+    );
   }
 
   @Autobind
