@@ -182,9 +182,11 @@ class ProjectItem
 
   @Autobind
   dragStartHandler(event: DragEvent): void {
-    console.log(event);
+    event.dataTransfer!.setData("text/plain", this.project.id);
+    event.dataTransfer!.effectAllowed = "move";
   }
 
+  @Autobind
   dragStopHandler(event: DragEvent): void {
     console.log(event);
   }
@@ -200,7 +202,10 @@ class ProjectItem
 }
 
 //ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
+class ProjectList
+  extends Component<HTMLDivElement, HTMLElement>
+  implements DragTarget
+{
   assignedProjects: Project[];
   constructor(private type: "active" | "finished") {
     super("project-list", "app", false, `${type}-projects`);
@@ -221,23 +226,27 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
   }
 
   @Autobind
-  dragOverHandler(_: DragEvent): void {
-    //Add class for UI changes
-      const listEl = this.element.querySelector('ul')!;
-      listEl.classList.add('droppable');
-
+  dragOverHandler(event: DragEvent): void {
+    //Check if drag is allowed here
+    if (event.dataTransfer && event.dataTransfer.types[0] === "text/plain") {
+        //mandatory to allow a drop
+      event.preventDefault();
+      //Add class for UI changes
+      const listEl = this.element.querySelector("ul")!;
+      listEl.classList.add("droppable");
+    }
   }
 
   @Autobind
-  dropHandler(_: DragEvent): void {
-      
+  dropHandler(event: DragEvent): void {
+    console.log(event.dataTransfer!.getData('text/plain'));
   }
 
   @Autobind
   dragLeaveHandler(_: DragEvent): void {
-      //Remove class for UI changes
-      const listEl = this.element.querySelector('ul')!;
-      listEl.classList.remove('droppable');
+    //Remove class for UI changes
+    const listEl = this.element.querySelector("ul")!;
+    listEl.classList.remove("droppable");
   }
 
   private renderProjects() {
@@ -258,9 +267,9 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
   }
 
   configure(): void {
-    this.element.addEventListener('dragover', this.dragOverHandler);
-    this.element.addEventListener('dragleave', this.dragLeaveHandler);
-    this.element.addEventListener('drop', this.dropHandler)
+    this.element.addEventListener("dragover", this.dragOverHandler);
+    this.element.addEventListener("dragleave", this.dragLeaveHandler);
+    this.element.addEventListener("drop", this.dropHandler);
   }
 }
 
