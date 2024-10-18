@@ -1,10 +1,6 @@
-//special syntacsys to import namespaces (only in TS)
-/// <reference path="./components/project-input.ts"/>
-/// <reference path="./components/project-list.ts"/>
+import { ProjectInput } from "./components/project-input.js";
+import { ProjectList } from "./components/project-list.js";
 
-//Putting everything into App namespace (same as we have in another file)
-namespace App {
   new ProjectInput();
   new ProjectList("active");
   new ProjectList("finished");
-}
