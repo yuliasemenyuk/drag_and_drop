@@ -1,5 +1,6 @@
     //Component Base Class
-  export abstract class Component<
+    //!!!Named and default exports can't be userd in the same file
+    export default abstract class Component<
     T extends HTMLElement,
     U extends HTMLElement
   > {
