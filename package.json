@@ -4,7 +4,7 @@
   "description": "Drag and Drop",
   "main": "app.js",
   "scripts": {
-    "start": "lite-server",
+    "start": "webpack-dev-server",
     "build": "webpack"
   },
   "keywords": [
