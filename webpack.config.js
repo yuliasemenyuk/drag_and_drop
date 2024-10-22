@@ -14,7 +14,7 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     //to inform webpack dev-server where to find assets (bundle.js)
-    publicPath: '/dist/'
+    publicPath: "/dist/",
   },
   //to defifine that there will be generated source maps already which WP should extract and wire up to the bundle it generates
   devtool: "inline-source-map",

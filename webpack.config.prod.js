@@ -1,5 +1,5 @@
 const path = require("path");
-const CleanPlugin = require('clean-webpack-plugin');
+const CleanPlugin = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "production",
@@ -25,6 +25,6 @@ module.exports = {
   },
   plugins: [
     //to clean up dist folder on each rebuild
-    new CleanPlugin.CleanWebpackPlugin()
-  ]
+    new CleanPlugin.CleanWebpackPlugin(),
+  ],
 };
